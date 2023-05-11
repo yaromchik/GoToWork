@@ -1,0 +1,103 @@
+﻿@model GoToWork_Models.Models.VM.TestVM
+
+@{
+    ViewData["Title"] = Model.Test.Language.Name;
+}
+
+<style>
+    p {
+        line-height: 1;
+        text-align: justify;
+    }
+</style>
+
+<head>
+    <link type="text/css" rel="stylesheet" href="~/css/test.css">
+</head>
+
+<body>
+    <div class="full" id="text">
+        @using (Html.AjaxBeginForm("Testik", new AjaxOptions { UpdateTargetId = "results" }, new { @class = "full" }))
+        {
+
+            <main>
+
+                <div class="game-quiz-container">
+                    <div class="game-question-container">
+                        <h1>@Html.Raw(Model.Test.Question)</h1>
+                    </div>
+
+                    <div class="game-options-container">
+
+                        <span>
+                            <input type="radio" id="option-one" name="myRadio" class="radio" value="1" />
+                            <label for="option-one" class="option" id="option-one-label">@Html.Raw(Model.Test.Answer_1)</label>
+                        </span>
+
+
+                        <span>
+                            <input type="radio" id="option-two" name="myRadio" class="radio" value="2" />
+                            <label style="" for="option-two" class="option" id="option-two-label">@Html.Raw(Model.Test.Answer_2)</label>
+                        </span>
+
+
+                        <span>
+                            <input type="radio" id="option-three" name="myRadio" class="radio" value="3" />
+                            <label for="option-three" class="option" id="option-three-label">@Html.Raw(Model.Test.Answer_3)</label>
+                        </span>
+
+
+                        <span>
+                            <input type="radio" id="option-four" name="myRadio" class="radio" value="4" />
+                            <label for="option-four" class="option" id="option-four-label">@Html.Raw(Model.Test.Answer_4)</label>
+                        </span>
+
+
+                    </div>
+                    <input name="languageId" value="@Model.Test.LanguageId" hidden />
+                    <input name="count" value="@Model.Count" hidden />
+                    <input disabled onclick="chpok('text')" class="btn btn-info w-25" id="myButton" type="submit" value="Ответить" />
+
+                </div>
+            </main>
+        }
+    </div>
+    <div class="full" id="results"></div>
+
+    <div class="bottom-nav">
+        <span class="navigation">
+            @for (int i = 1, j = 0; i < Model.CountQ + 1; i++, j++)
+            {
+                if (j == Model.Count)
+                {
+                    <span>@i</span>
+                }
+                else
+                {
+                    <a asp-action="Index" asp-route-id="@Model.Test.LanguageId" asp-route-count="@j">@i</a>
+                }
+            }
+        </span>
+    </div>
+</body>
+
+<script>
+    const radios = document.getElementsByName('myRadio');
+    const button = document.getElementById('myButton');
+
+    for (const radio of radios) {
+        radio.addEventListener('change', function () {
+            if (this.checked) {
+                button.disabled = false;
+            }
+        });
+    }
+
+
+    function chpok(id) {
+        elem = document.getElementById(id);
+        state = elem.style.display;
+        if (state == '') elem.style.display = 'none';
+        else elem.style.display = '';
+    }
+</script>

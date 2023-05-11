@@ -1,0 +1,156 @@
+﻿@model GoToWork_Models.Models.VM.CreateTestVM
+
+@{
+    ViewData["Title"] = "Редактирование теста";
+}
+
+<body>
+    <form method="post" asp-action="Edit">
+        <input asp-for="Testik.Id" hidden />
+        <div class="border p-3">
+            <div class="form-group row">
+                <h2 class="pl-3">Редактировать тест</h2>
+            </div>
+            <div class="row">
+                <div class="col-12">
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label>Вопрос</label>
+                        </div>
+                        <div class="col-10">
+                            <textarea asp-for="Testik.Question" style="" class="form-control summernote"></textarea>
+                            <span asp-validation-for="Testik.Question" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label>Ответ№1</label>
+                        </div>
+                        <div class="col-10">
+                            <textarea asp-for="Testik.Answer_1" style="" class="form-control summernote"></textarea>
+                            <span asp-validation-for="Testik.Answer_1" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label>Ответ№2</label>
+                        </div>
+                        <div class="col-10">
+                            <textarea asp-for="Testik.Answer_2" class="form-control summernote"></textarea>
+                            <span asp-validation-for="Testik.Answer_2" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label>Ответ№3</label>
+                        </div>
+                        <div class="col-10">
+                            <textarea asp-for="Testik.Answer_3" style="" class="form-control summernote"></textarea>
+                            <span asp-validation-for="Testik.Answer_3" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label>Ответ№4</label>
+                        </div>
+                        <div class="col-10">
+                            <textarea asp-for="Testik.Answer_4" style="" class="form-control summernote"></textarea>
+                            <span asp-validation-for="Testik.Answer_4" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label>Ссылка на дополнительную информацию</label>
+                        </div>
+                        <div class="col-10">
+                            <input asp-for="Testik.GuideUrl" style="width:38%" class="form-control" />
+                            <span asp-validation-for="Testik.GuideUrl" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <p>Язык</p>
+                        </div>
+                        <div class="col-4">
+                            <select asp-for="Testik.LanguageId" asp-items="@Model.LanguageSelectList" class="form-control">
+                                <option disabled selected>Выберете язык</option>
+                            </select>
+                            <span asp-validation-for="Testik.LanguageId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <p>Правильный ответ</p>
+                        </div>
+                        <div class="col-4">
+                            <select asp-for="Testik.Number_true" class="form-control">
+                                <option disabled selected>Выберете правильный ответ</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <span asp-validation-for="Testik.Number_true" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-5 offset-7 row">
+                            <div class="col">
+                                <a asp-action="Moderation" asp-controller="Test" class="btn btn-info w-100"><i class="fas fa-sign-out-alt"></i> Назад</a>
+                            </div>
+
+                            <div class="col">
+                                <input type="submit" class="btn btn-success w-100" value="Изменить" />
+                            </div>
+
+                            <div class="col">
+                                <a asp-action="Delete" asp-route-id="@Model.Testik.Id" class="btn btn-danger w-100"><i class="fas fa-sign-out-alt"></i>Удалить</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</body>
+
+@section Scripts{
+
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script src="~/lib/syntax/src/summernote-ext-highlight.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.summernote').summernote({
+                height: 200,
+                prettifyHtml: false,
+                lang: 'ru-RU',
+                toolbar: [
+                    ['style', ['style']],
+                    ['highlight', ['highlight']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ],
+            });
+        });
+    </script>
+}

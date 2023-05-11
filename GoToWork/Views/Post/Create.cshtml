@@ -1,0 +1,141 @@
+﻿@model GoToWork_Models.Models.VM.IndexVM
+
+@{
+    ViewData["Title"] = "Создание статьи";
+}
+
+<body>
+    <form method="post" asp-action="Create" enctype="multipart/form-data">
+
+        <div class="border p-3">
+            <div class="form-group row">
+                <h2 class="pl-3">Добавить статью</h2>
+            </div>
+            <div class="row">
+                <div class="col-12">
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="Postic.ShortQuestion"></label>
+                        </div>
+                        <div class="col-10">
+                            <input asp-for="Postic.ShortQuestion" class="form-control" />
+                            <span asp-validation-for="Postic.ShortQuestion" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            Изображение
+                        </div>
+                        <div class="col-4">
+                            <input type="file" name="files" id="uploadBox" multiple class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="Postic.Question"></label>
+                        </div>
+                        <div class="col-10">
+                            <textarea asp-for="Postic.Question" style="" class="form-control summernote"></textarea>
+                            <span asp-validation-for="Postic.Question" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="Postic.Answer"></label>
+                        </div>
+                        <div class="col-10">
+                            <textarea asp-for="Postic.Answer" class="form-control summernote"></textarea>
+                            <span asp-validation-for="Postic.Answer" class="text-danger"></span>
+                        </div>
+                    </div>
+                    @if (User.IsInRole(WC.AdminRole))
+                    {
+                        <input value="true" asp-for="Postic.IsVerified" hidden />
+                    }
+                    else
+                    {
+                        <input value="false" asp-for="Postic.IsVerified" hidden />
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <input value="@User.Identity.Name" asp-for="Postic.AuthorName" hidden />
+                    }
+                    else
+                    {
+                        <div class="form-group row">
+                            <div class="col-2">
+                                <label>Имя автора</label>
+                            </div>
+                            <div class="col-10">
+                                <input asp-for="Postic.AuthorName" style="width:38%" class="form-control" value="" />
+                                <span asp-validation-for="Postic.AuthorName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <p>Язык</p>
+                        </div>
+                        <div class="col-4">
+                            <select asp-for="Postic.LanguageId" asp-items="@Model.LanguageSelectList" class="form-control">
+                                <option disabled selected>Выберете язык</option>
+                            </select>
+                            <span asp-validation-for="Postic.LanguageId" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-5 offset-7 row">
+                            <div class="col">
+                                @if (User.IsInRole(WC.AdminRole))
+                                {
+                                    <input type="submit" class="btn btn-success w-100" value="Создать" />
+                                }
+                                else
+                                {
+                                    <input type="submit" class="btn btn-success w-100" value="Отправить на модерацию" />
+                                }
+                            </div>
+                            <div class="col">
+                                <a asp-action="Index" asp-controller="Home" class="btn btn-danger w-100"><i class="fas fa-sign-out-alt"></i> Назад</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+
+@section Scripts{
+
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script src="~/lib/syntax/src/summernote-ext-highlight.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.summernote').summernote({
+                height: 200,
+                prettifyHtml: false,
+                toolbar: [
+                    ['style', ['style']],
+                    ['highlight', ['highlight']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ],
+            });
+        });
+    </script>
+}

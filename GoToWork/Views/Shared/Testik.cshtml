@@ -1,0 +1,111 @@
+﻿@model GoToWork_Models.Models.VM.TestVM
+
+
+<head>
+    <link href="google-code-prettify/prettify.css" rel="stylesheet">
+</head>
+<main>
+
+    <div class="game-quiz-container">
+        <div class="game-question-container">
+            <h1>@Html.Raw(@Model.Test.Question)</h1>
+        </div>
+        @if (Model.Test.GuideUrl.Substring(0,4)=="http")
+        {
+            <a target="_blank" href="@Model.Test.GuideUrl">Дополнительная информация по теме</a>
+        }
+        else if (Model.Test.GuideUrl.Substring(0, 1) == "~")
+        {
+            <a target="_blank" asp-action="Details" asp-controller="Post" asp-route-id="@Model.Test.GuideUrl.Substring(1)">Дополнительная информация по теме</a>
+        }
+        else
+        {
+            <p>@Model.Test.GuideUrl</p>
+        }
+        <div class="game-options-container">
+
+            @if (Model.Test.Number_true == 1)
+            {
+                <span>
+                    <label style="background-color:greenyellow" for="option-one" class="option" id="option-one-label">@Html.Raw(@Model.Test.Answer_1)</label>
+                </span>
+            }
+            else if (Model.Option==1)
+            {
+                <span>
+                    <label style="background-color:orangered" for="option-one" class="option" id="option-one-label">@Html.Raw(@Model.Test.Answer_1)</label>
+                </span>
+            }
+            else
+            {
+                <span>
+                    <label for="option-one" class="option" id="option-one-label">@Html.Raw(@Model.Test.Answer_1)</label>
+                </span>
+            }
+
+            @if (Model.Test.Number_true == 2 )
+            {
+                    <span>
+                    <label style="background-color:greenyellow" for="option-two" class="option" id="option-two-label">@Html.Raw(@Model.Test.Answer_2)</label>
+                    </span>
+            }
+            else if (Model.Option == 2)
+            {
+                    <span>
+                    <label style="background-color:orangered" for="option-two" class="option" id="option-two-label">@Html.Raw(@Model.Test.Answer_2)</label>
+        </span>
+            }
+            else
+            {
+                    <span>
+                    <label for="option-two" class="option" id="option-two-label">@Html.Raw(@Model.Test.Answer_2)</label>
+                    </span>
+            }
+
+            @if (Model.Test.Number_true == 3)
+            {
+                    <span>
+                    <label style="background-color:greenyellow" for="option-three" class="option" id="option-three-label">@Html.Raw(@Model.Test.Answer_3)</label>
+                    </span>
+            }
+            else if (Model.Option == 3)
+            {
+                    <span>
+                    <label style="background-color:orangered" for="option-three" class="option" id="option-three-label">@Html.Raw(@Model.Test.Answer_3)</label>
+        </span>
+            }
+            else
+            {
+                    <span>
+                    <label for="option-three" class="option" id="option-one-label">@Html.Raw(@Model.Test.Answer_3)</label>
+                    </span>
+            }
+
+            @if (Model.Test.Number_true == 4)
+            {
+                <span>
+                    <label style="background-color:greenyellow" for="option-four" class="option" id="option-four-label">@Html.Raw(@Model.Test.Answer_4)</label>
+                </span>
+            }
+            else if (Model.Option==4)
+            {
+                <span>
+                    <label style="background-color:orangered" for="option-four" class="option" id="option-four-label">@Html.Raw(@Model.Test.Answer_4)</label>
+                </span>
+            }
+            else
+            {
+                <span>
+                    <label for="option-four" class="option" id="option-four-label">@Html.Raw(@Model.Test.Answer_4)</label>
+                </span>
+            }
+            
+        </div>
+        @{
+            int kek = Model.Count+1;//без этого не работает хз почему
+        }
+        @if(Model.Count!=Model.CountQ-1){
+        <a class="btn btn-info w-25" asp-action="Index" asp-route-id="@Model.Test.LanguageId" asp-route-count="@kek">Дальше</a>
+        }
+    </div>
+</main>

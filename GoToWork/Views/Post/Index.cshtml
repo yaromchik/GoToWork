@@ -1,0 +1,79 @@
+﻿@model GoToWork_Models.Models.VM.PostIndexVM
+
+@{
+    ViewData["Title"] = Model.Language;
+}
+
+<head>
+    <link type="text/css" rel="stylesheet" href="~/css/postv1.css">
+</head>
+
+<body>
+    <h1 s id="title4">@Model.Title</h1>
+    <br />
+
+    <div style="">
+
+        <div style="text-align: right; margin-right:9.5% ">
+            @if (User.IsInRole(WC.AdminRole))
+            {
+                <a class="btn btn-primary w-25" asp-action="Create" asp-controller="Post">Создать статью</a>
+            }
+            else
+            {
+                <a class="btn btn-primary w-25" asp-action="Create" asp-controller="Post">Предложить статью</a>
+            }
+        </div>
+
+        <div>
+            @foreach (var post in Model.Postic)
+            {
+                
+                    <div style="width: 100%" @*class="container"*@>
+                    <div style="width: 75%; margin: 0 auto;">
+                        <a style="color: #000 !important; text-decoration: none" asp-route-page="@Model.Page" asp-route-id="@post.Id" asp-action="Details">
+                        <div class="post">
+                            <div>
+                                <h2>@post.ShortQuestion</h2>
+                            </div>
+                            @if (post.Image != null)
+                            {
+                                <div class="post-image">
+                                    <img src="@WC.ImagePath@post.Image">
+                                </div>
+                            }
+
+                            <div class="post-meta">
+                                <time>@post.Date.ToShortDateString()</time>
+                                <span class="author">@post.AuthorName</span>
+                                <span class="category">@post.Language.Name</span>
+                            </div>
+                        </div>
+                    </a>
+                    </div>
+                    </div>
+                
+            }
+        </div>
+
+        <div class="bottom-nav">
+            @if (Model.CountPage != 1)
+            {
+
+                <span class="navigation">
+                    @for (int i = 1, j = 0; i < Model.CountPage + 1; i++, j++)
+                    {
+                        if (j == Model.Page)
+                        {
+                            <span>@i</span>
+                        }
+                        else
+                        {
+                            <a asp-action="Index" asp-route-id="@Model.Postic.FirstOrDefault().LanguageId" asp-route-page="@j">@i</a>
+                        }
+                    }
+                </span>
+            }
+        </div>
+    </div>
+</body>

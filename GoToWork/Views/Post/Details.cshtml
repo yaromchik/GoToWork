@@ -1,0 +1,94 @@
+﻿@model GoToWork_Models.Models.VM.DetailsVM
+
+@{
+    ViewData["Title"] = Model.Postic.ShortQuestion;
+}
+
+<style>
+    .center img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<body>
+    <div class="center">
+        <h1>@Html.DisplayFor(model => model.Postic.ShortQuestion)</h1>
+        @Html.Raw(@Model.Postic.Question)
+        @Html.Raw(Model.Postic.Answer)
+    </div>
+
+    <p style="font-weight: bold; text-align:right">
+        @Model.Postic.Date.ToShortDateString()
+        @Html.DisplayFor(model => model.Postic.AuthorName)
+        @Html.DisplayFor(model => model.Postic.Language.Name)
+    </p>
+
+    <div>
+        <div class="col-5 offset-8  row">
+
+            <div class="col">
+                <a asp-action="Index" asp-route-page="@Model.Page" asp-route-id="@Model.Postic.Language.Id" class="btn btn-primary w-100"><i class="fas fa-sign-out-alt"></i>Назад</a>
+            </div>
+            @if (User.IsInRole(WC.AdminRole))
+            {
+                <div class="col">
+                    <a asp-action="Edit" asp-route-id="@Model.Postic.Id" class="btn btn-success w-100"><i class="fas fa-sign-out-alt"></i>Изменить</a>
+                </div>
+
+                <div class="col">
+                    <a asp-action="Delete" asp-route-id="@Model.Postic.Id" class="btn btn-danger w-100"><i class="fas fa-sign-out-alt"></i>Удалить</a>
+                </div>
+
+            }
+        </div>
+    </div>
+    <br />
+    <hr />
+    <h3>
+        Комментарии:
+    </h3>
+
+    @foreach (var comment in Model.CommentList)
+    {
+        <div class="container">
+            <div class="d-flex justify-content-center row">
+                <div class="col-md-12">
+                    <div class="d-flex flex-column comment-section">
+                        <div class="p-2">
+                            <div class="d-flex flex-row user-info">
+                                <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">@comment.Name</span><span class="date text-black-50">@comment.Date</span></div>
+                            </div>
+                            <div class="mt-2">
+                                <p class="comment-text">@comment.Text</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form method="post" asp-action="AddComment">
+            <input value="@User.Identity.Name" name="name" hidden />
+            <input value="@Model.Postic.Id" type="number" name="id" hidden />
+            <div class=" p-2">
+                <div class="d-flex flex-row align-items-start"><textarea required name="textik" class="form-control ml-1 shadow-none textarea"></textarea></div>
+                <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit">Прокомментировать</button></div>
+            </div>
+        </form>
+    }
+    else
+    {
+        <form method="post" asp-action="AddComment">
+            <input value="@User.Identity.Name" name="name" hidden />
+            <input value="@Model.Postic.Id" type="number" name="id" hidden />
+            <div class=" p-2">
+                <div class="d-flex flex-row align-items-start"><textarea disabled va required name="textik" class="form-control ml-1 shadow-none textarea">Авторизуйтесь для возможности комментировать</textarea></div>
+                <div class="mt-2 text-right"><button disabled class="btn btn-primary btn-sm shadow-none" type="submit">Прокомментировать</button></div>
+            </div>
+        </form>
+    }
+</body>
